@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Bootcamp Day Two</string>
+    <string name="droids_mail_suffix">\@droidsonroids.com</string>
+    <string name="gmail_package_name">com.google.android.gm</string>
+    <string name="chooser_header">Send E-Mail</string>
+    <string name="mail_error">Wrong E-Mail</string>
+    <string name="empty_error">Some fields are empty</string>
 </resources>
