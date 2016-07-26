@@ -3,8 +3,10 @@ package pl.temomuko.bootcampdaytwo;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,14 +26,29 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.edit_message)
     EditText messageEditText;
 
-    //drugi fab z racji braku czasu, najprostsze rozwiazanie :)
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         handleIntent();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Uri contactUri = data.getData();
+                String[] projection = {ContactsContract.CommonDataKinds.Email.DATA};
+
+                Cursor cursor = getContentResolver()
+                        .query(contactUri, projection, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    mailEditText.setText(cursor.getString(0));
+                }
+            }
+        }
     }
 
     public void handleIntent() {
@@ -54,8 +71,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.button_add)
-    public void add() {
-        Toast.makeText(MainActivity.this, "add", Toast.LENGTH_SHORT).show();
+    public void addContact() {
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Email.CONTENT_URI);
+        contactPickerIntent.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
+        startActivityForResult(contactPickerIntent, 1);
     }
 
     private Intent makeIntent() {
