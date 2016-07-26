@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.edit_message)
     EditText messageEditText;
 
-    @BindView(R.id.fab_send)
-    FloatingActionButton fab;
+    //drugi fab z racji braku czasu, najprostsze rozwiazanie :)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +50,22 @@ public class MainActivity extends AppCompatActivity {
         if (!validateEmptyInput()) {
             return;
         }
+        startMailActivity(makeIntent());
+    }
+
+    @OnClick(R.id.button_add)
+    public void add() {
+        Toast.makeText(MainActivity.this, "add", Toast.LENGTH_SHORT).show();
+    }
+
+    private Intent makeIntent() {
         Intent send = new Intent(Intent.ACTION_SENDTO);
-        String uriText = String.format("mailto:%s?subject=%s&body=%s",
-                Uri.encode(mailEditText.getText().toString().trim()),
-                Uri.encode(topicEditText.getText().toString()),
-                Uri.encode(messageEditText.getText().toString()));
-        Uri uri = Uri.parse(uriText);
-
+        Uri uri = makeUri();
         send.setData(uri);
+        return send;
+    }
 
+    private void startMailActivity(Intent send) {
         PackageManager manager = getPackageManager();
         for (ResolveInfo info : manager.queryIntentActivities(send, 0)) {
             if (info.activityInfo.packageName.equals(getString(R.string.gmail_package_name))) {
@@ -70,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         startActivity(Intent.createChooser(send, getString(R.string.chooser_header)));
+    }
+
+    private Uri makeUri() {
+        String uriText = String.format("mailto:%s?subject=%s&body=%s",
+                Uri.encode(mailEditText.getText().toString().trim()),
+                Uri.encode(topicEditText.getText().toString()),
+                Uri.encode(messageEditText.getText().toString()));
+        return Uri.parse(uriText);
     }
 
     public boolean validateEmptyInput() {

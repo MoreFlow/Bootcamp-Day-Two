@@ -10,22 +10,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pl.temomuko.bootcampdaytwo.MainActivity">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/mail_text_input_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edit_mail"
-            android:layout_width="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/mail_text_input_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:ems="10"
-            android:hint="E-Mail"
-            android:inputType="textEmailAddress" />
+            android:layout_weight="0.8">
 
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/edit_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
+                android:hint="E-Mail"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/button_add"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:src="@android:drawable/ic_menu_add"/>
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/topic_text_input_layout"

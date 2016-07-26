@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bootcamp Day Two</string>
+    <string name="app_name">Bootcamp Mail Sender</string>
     <string name="droids_mail_suffix">\@droidsonroids.com</string>
     <string name="gmail_package_name">com.google.android.gm</string>
     <string name="chooser_header">Send E-Mail</string>
